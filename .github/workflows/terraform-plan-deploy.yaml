@@ -8,6 +8,7 @@ permissions:
   pull-requests: write # This is required for gh bot to comment PR
 
 jobs:
+  ## Plan and Deploy Development
   devl:
     uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/terraform-plan-oidc.yaml@main
     with:
@@ -17,6 +18,7 @@ jobs:
       aws_role_arn: arn:aws:iam::237376087602:role/CloudWorksGitHubOIDCRole
       aws_tf_state_bucket_name: subhamay-terraform-remote-state-237376087602-devl-us-east-1
       aws_tf_state_bucket_key_name: 0000-terraform-cicd/devl/terraform.tfstate
+  ## Plan and Deploy Test/ Stage
   test:
     uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/terraform-plan-oidc.yaml@main
     with:
@@ -26,6 +28,7 @@ jobs:
       aws_role_arn: arn:aws:iam::693751172373:role/CloudWorksGitHubOIDCRole
       aws_tf_state_bucket_name: subhamay-terraform-remote-state-693751172373-test-us-east-1
       aws_tf_state_bucket_key_name: 0000-terraform-cicd/test/terraform.tfstate
+  ## Plan and Deploy Production
   prod:
     needs: test
     uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/terraform-plan-oidc.yaml@main
