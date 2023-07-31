@@ -21,8 +21,8 @@ jobs:
     with:
       tfvars_filename: devl.terraform.tfvars
       github_env: devl
-      aws_region: ${AWS_REGION}
-      aws_role_arn: ${AWS_ROLE_ARN}
-      aws_tf_state_bucket_name: ${AWS_TF_STATE_BUCKET_NAME}
-      aws_tf_state_bucket_key_name: ${AWS_TF_STATE_BUCKET_KEY_NAME}
+      aws_region: $AWS_REGION
+      aws_role_arn: $AWS_ROLE_ARN
+      aws_tf_state_bucket_name: $AWS_TF_STATE_BUCKET_NAME
+      aws_tf_state_bucket_key_name: $AWS_TF_STATE_BUCKET_KEY_NAME
 
