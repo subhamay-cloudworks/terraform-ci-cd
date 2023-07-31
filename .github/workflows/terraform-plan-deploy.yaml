@@ -8,7 +8,7 @@ permissions:
   pull-requests: write # This is required for gh bot to comment PR
 
 jobs:
-  plan-dev:
+  devl:
     uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/terraform-plan-oidc.yaml@main
     with:
       tfvars_filename: devl.terraform.tfvars
@@ -17,4 +17,23 @@ jobs:
       aws_role_arn: arn:aws:iam::237376087602:role/CloudWorksGitHubOIDCRole
       aws_tf_state_bucket_name: subhamay-terraform-remote-state-237376087602-devl-us-east-1
       aws_tf_state_bucket_key_name: 0000-terraform-cicd/devl/terraform.tfstate
+  test:
+    uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/terraform-plan-oidc.yaml@main
+    with:
+      tfvars_filename: test.terraform.tfvars
+      github_env: test
+      aws_region: us-east-1
+      aws_role_arn: arn:aws:iam::693751172373:role/CloudWorksGitHubOIDCRole
+      aws_tf_state_bucket_name: subhamay-terraform-remote-state-693751172373-test-us-east-1
+      aws_tf_state_bucket_key_name: 0000-terraform-cicd/test/terraform.tfstate
+  prod:
+    needs: test
+    uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/terraform-plan-oidc.yaml@main
+    with:
+      tfvars_filename: prod.terraform.tfvars
+      github_env: prod
+      aws_region: us-east-1
+      aws_role_arn: arn:aws:iam::907202484041:role/CloudWorksGitHubOIDCRole   
+      aws_tf_state_bucket_name: subhamay-terraform-remote-state-907202484041-prod-us-east-1
+      aws_tf_state_bucket_key_name: 0000-terraform-cicd/prod/terraform.tfstate
 
