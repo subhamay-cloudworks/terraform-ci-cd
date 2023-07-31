@@ -18,10 +18,6 @@ env:
 jobs:
   plan-dev:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: .
     steps:
       - name: Deploy Dev
         uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/terraform-plan-oidc.yaml@main
