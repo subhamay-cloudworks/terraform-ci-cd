@@ -16,5 +16,5 @@ jobs:
       aws_region: us-east-1
       aws_role_arn: arn:aws:iam::237376087602:role/CloudWorksGitHubOIDCRole
       aws_tf_state_bucket_name: subhamay-terraform-remote-state-237376087602-devl-us-east-1
-      aws_tf_state_bucket_key_name: 0000-terraform-cicd/devl
+      aws_tf_state_bucket_key_name: 0000-terraform-cicd/devl/
 
