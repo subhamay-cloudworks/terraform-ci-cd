@@ -17,11 +17,17 @@ env:
 
 jobs:
   plan-dev:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: .
+  steps:
     uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/terraform-plan-oidc.yaml@main
     with:
       tfvars_filename: devl.terraform.tfvars
       github_env: devl
-      aws_region: $AWS_REGION
+      aws_region: ${AWS_REGION}
       aws_role_arn: $AWS_ROLE_ARN
       aws_tf_state_bucket_name: $AWS_TF_STATE_BUCKET_NAME
       aws_tf_state_bucket_key_name: $AWS_TF_STATE_BUCKET_KEY_NAME
