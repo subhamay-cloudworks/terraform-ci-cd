@@ -1,7 +1,11 @@
 name: "Plan and Deploy"
 on:
   workflow_dispatch:
-
+    
+permissions:
+  id-token: write # This is required for aws oidc connection
+  contents: read # This is required for actions/checkout
+  pull-requests: write # This is required for gh bot to comment PR
 jobs:
   plan-dev:
     uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/terraform-plan-oidc.yaml@main
