@@ -1,4 +1,5 @@
 name: "Terraform Plan"
+
 on:
   workflow_call:
     inputs:
@@ -78,7 +79,7 @@ jobs:
         env:
           AWS_BUCKET_NAME: ${{ inputs.aws_tf_state_bucket_name }}
           AWS_BUCKET_KEY_NAME: ${{ inputs.aws_tf_state_bucket_key_name }}
-        run: terraform init -backend-config="bucket=${{ inputs.aws_tf_state_bucket_name }}" -backend-config="key=${{ inputs.aws_tf_state_bucket_key_name }}" -backend-config="region=${{ env.AWS_REGION }}"
+        run: terraform init -backend-config="bucket=${{ inputs.aws_tf_state_bucket_name }}" -backend-config="key=${{ inputs.aws_tf_state_bucket_key_name }}" -backend-config="region=${{ inputs.aws_region }}"
 
       - name: Terraform Validate
         id: validate
@@ -93,7 +94,7 @@ jobs:
         run: exit 1
   ## Plan and Apply 
   apply:
-    if: ${{ inputs.github_env }} != 'prod'
+    if: success()
     needs: validate-plan
     runs-on: ubuntu-latest
     environment: ${{ inputs.github_env }}
@@ -131,7 +132,7 @@ jobs:
         env:
           AWS_BUCKET_NAME: ${{ inputs.aws_tf_state_bucket_name }}
           AWS_BUCKET_KEY_NAME: ${{ inputs.aws_tf_state_bucket_key_name }}
-        run: terraform init -backend-config="bucket=${{ inputs.aws_tf_state_bucket_name }}" -backend-config="key=${{ inputs.aws_tf_state_bucket_key_name }}" -backend-config="region=${{ env.AWS_REGION }}"
+        run: terraform init -backend-config="bucket=${{ inputs.aws_tf_state_bucket_name }}" -backend-config="key=${{ inputs.aws_tf_state_bucket_key_name }}" -backend-config="region=${{ inputs.aws_region }}"
 
       - name: Terraform Validate
         id: validate
@@ -148,59 +149,3 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve -input=false
 
-  ## Validate Plan and Apply 
-  validate-plan-apply:
-    if: ${{ inputs.github_env }} == 'prod'
-    needs: validate-plan
-    runs-on: ubuntu-latest
-    environment: ${{ inputs.github_env }}
-    defaults:
-      run:
-        shell: bash
-        working-directory: .
-    steps:
-      - name: Git checkout
-        uses: actions/checkout@v3
-
-      - name: Change file name
-        run: | 
-          mv ${{ github.workspace }}/${{ inputs.tfvars_filename }}  ${{ github.workspace }}/terraform.tfvars 
-
-      - name: Configure AWS credentials from AWS account
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          role-to-assume: ${{ inputs.aws_role_arn }}
-          aws-region: ${{ inputs.aws_region }}
-          role-session-name: GitHub-OIDC-TERRAFORM
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.2.5
-
-      - name: Terraform fmt
-        id: fmt
-        run: terraform fmt -check
-        continue-on-error: true
-
-      - name: Terraform Init
-        id: init
-        env:
-          AWS_BUCKET_NAME: ${{ inputs.aws_tf_state_bucket_name }}
-          AWS_BUCKET_KEY_NAME: ${{ inputs.aws_tf_state_bucket_key_name }}
-        run: terraform init -backend-config="bucket=${{ inputs.aws_tf_state_bucket_name }}" -backend-config="key=${{ inputs.aws_tf_state_bucket_key_name }}" -backend-config="region=${{ env.AWS_REGION }}"
-
-      - name: Terraform Validate
-        id: validate
-        run: terraform validate -no-color
-
-      - name: Terraform Plan
-        id: plan
-        run: terraform plan
-
-      - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
-        run: exit 1
-
-      - name: Terraform Apply
-        run: terraform apply -auto-approve -input=false
