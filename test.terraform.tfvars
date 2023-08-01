@@ -17,5 +17,5 @@ kms_key_alias = "alias/SB-KMS"
 transition_days_standard_ia         = 60
 transition_days_intelligent_tiering = 120
 transition_days_glacier_ir          = 240
-transition_days_glacier             = 300
+transition_days_glacier             = 330
 transition_days_deep_archive        = 775
