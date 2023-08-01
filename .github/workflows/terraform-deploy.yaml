@@ -53,7 +53,7 @@ jobs:
 
       - name: Change file name
         run: | 
-          mv ${{ github.workspace }}/${{ inputs.tfvars_filename }}  ${{ github.workspace }}/${{ inputs.github_env }}.auto.tfvars 
+          mv ${{ github.workspace }}/${{ inputs.tfvars_filename }}  ${{ github.workspace }}/terraform.tfvars 
 
       - name: Configure AWS credentials from AWS account
         uses: aws-actions/configure-aws-credentials@v2
@@ -106,7 +106,7 @@ jobs:
 
       - name: Change file name
         run: | 
-          mv ${{ github.workspace }}/${{ inputs.tfvars_filename }}  ${{ github.workspace }}/${{ inputs.github_env }}.auto.tfvars 
+          mv ${{ github.workspace }}/${{ inputs.tfvars_filename }}  ${{ github.workspace }}/terraform.tfvars 
 
       - name: Configure AWS credentials from AWS account
         uses: aws-actions/configure-aws-credentials@v2
