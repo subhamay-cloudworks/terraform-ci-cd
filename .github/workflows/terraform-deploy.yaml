@@ -1,4 +1,4 @@
-name: "Terraform Plan"
+name: "Terraform Plan and Deploy"
 
 on:
   workflow_call:
@@ -13,28 +13,37 @@ on:
         required: false
         type: string
         default: "devl"
-      aws_region: 
-        description: 'Specifies the AWS Region.'
-        required: true
-        type: string
-        default: "us-east-1"
-      aws_role_arn: 
-        description: 'Specifies the AWS Region.'
-        required: true
-        type: string
-      aws_tf_state_bucket_name: 
-        description: 'S3 Bucket to store the Terraform state file.'
-        required: true
-        type: string
-      aws_tf_state_bucket_key_name: 
-        description: 'S3 Bucket key to store the Terraform state file.'
-        required: true
-        type: string
+      # aws_region: 
+      #   description: 'Specifies the AWS Region.'
+      #   required: true
+      #   type: string
+      #   default: "us-east-1"
+      # aws_role_arn: 
+      #   description: 'Specifies the AWS Region.'
+      #   required: true
+      #   type: string
+      # aws_tf_state_bucket_name: 
+      #   description: 'S3 Bucket to store the Terraform state file.'
+      #   required: true
+      #   type: string
+      # aws_tf_state_bucket_key_name: 
+      #   description: 'S3 Bucket key to store the Terraform state file.'
+      #   required: true
+      #   type: string
       tfvars_filename:
         description: 'Specifies the Terraform TFVARS file.'
         required: true
         type: string
-    # secrets:
+    secrets:
+      aws_region:
+        required: true
+      aws_role_arn:
+        required: true
+      aws_tf_state_bucket_name:
+        required: true
+      aws_tf_state_bucket_key_name: 
+        required: true
+      
 
 permissions:
   id-token: write # This is required for aws oidc connection
