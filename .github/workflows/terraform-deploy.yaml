@@ -41,8 +41,7 @@ permissions:
 jobs:
   validate-plan:
     runs-on: ubuntu-latest
-    env:
-      environment: ${{ inputs.github_env }}
+    environment: ${{ inputs.github_env }}
     defaults:
       run:
         shell: bash
@@ -94,8 +93,7 @@ jobs:
   apply:
     needs: validate-plan
     runs-on: ubuntu-latest
-    env:
-      environment: ${{ inputs.github_env }}
+    environment: ${{ inputs.github_env }}
     defaults:
       run:
         shell: bash
