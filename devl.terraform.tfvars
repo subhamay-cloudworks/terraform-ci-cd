@@ -18,4 +18,4 @@ transition_days_standard_ia         = 30
 transition_days_intelligent_tiering = 120
 transition_days_glacier_ir          = 240
 transition_days_glacier             = 400
-transition_days_deep_archive        = 365
+transition_days_deep_archive        = 765
