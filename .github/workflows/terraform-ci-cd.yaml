@@ -10,9 +10,9 @@ permissions:
 jobs:
   ## Plan and Deploy Development
   sonar-scan:
-    uses: ./.github/workflows/terraform-deploy.yaml@main
+    uses: ./.github/workflows/sonar-cloud-scan.yaml@main
     secrets:
-        github_token: "${{ secrets.GITHUB_TOKEN }}"
+        git_token: "${{ secrets.GIT_TOKEN }}"
         sonar_token: "{{ secrets.SONAR_TOKEN }}"
   devl:
     uses: ./.github/workflows/terraform-deploy.yaml@main

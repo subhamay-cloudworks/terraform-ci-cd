@@ -11,7 +11,7 @@ on:
         required: true
         type: string
     secrets:
-      github_token:
+      git_token:
         required: true
       sonar_token:
         required: true
@@ -27,8 +27,8 @@ jobs:
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         env:
-            GITHUB_TOKEN: ${{ inputs.github_token }}
-            SONAR_TOKEN: ${{ inputs.sonar_token }}
+          GIT_TOKEN: ${{ inputs.git_token }}
+          SONAR_TOKEN: ${{ inputs.sonar_token }}
         with:
           args: >
               -Dsonar.organization=${{ inputs.sonar_organization }}
