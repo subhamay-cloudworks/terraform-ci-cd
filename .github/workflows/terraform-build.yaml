@@ -30,7 +30,7 @@ jobs:
       aws_tf_state_bucket_key_name: 0000-terraform-cicd/test/terraform.tfstate
   ## Plan and Deploy Production
   prod:
-    needs: test
+    needs: [devl,test]
     uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/terraform-deploy.yaml@main
     with:
       tfvars_filename: prod.terraform.tfvars
