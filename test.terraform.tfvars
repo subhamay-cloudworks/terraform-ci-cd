@@ -15,7 +15,7 @@ s3_bucket_base_name = "life-cycle-demo"
 kms_key_alias = "alias/SB-KMS"
 ######################################## S3 Storage Class Transition Configuration #################
 transition_days_standard_ia         = 30
-transition_days_intelligent_tiering = 60
-transition_days_glacier_ir          = 120
-transition_days_glacier             = 210
+transition_days_intelligent_tiering = 90
+transition_days_glacier_ir          = 180
+transition_days_glacier             = 270
 transition_days_deep_archive        = 365
