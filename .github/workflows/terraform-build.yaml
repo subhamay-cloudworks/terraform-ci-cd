@@ -10,7 +10,7 @@ permissions:
 jobs:
   ## Plan and Deploy Development
   devl:
-    uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/terraform-plan-oidc.yaml@main
+    uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/terraform-deploy.yaml@main
     with:
       tfvars_filename: devl.terraform.tfvars
       github_env: devl
@@ -20,7 +20,7 @@ jobs:
       aws_tf_state_bucket_key_name: 0000-terraform-cicd/devl/terraform.tfstate
   ## Plan and Deploy Test/ Stage
   test:
-    uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/terraform-plan-oidc.yaml@main
+    uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/terraform-deploy.yaml@main
     with:
       tfvars_filename: test.terraform.tfvars
       github_env: test
@@ -31,7 +31,7 @@ jobs:
   ## Plan and Deploy Production
   prod:
     needs: test
-    uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/terraform-plan-oidc.yaml@main
+    uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/terraform-deploy.yaml@main
     with:
       tfvars_filename: prod.terraform.tfvars
       github_env: prod
