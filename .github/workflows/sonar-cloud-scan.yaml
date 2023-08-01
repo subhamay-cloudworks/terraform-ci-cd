@@ -1,21 +1,6 @@
 name: "SonarCloud Scan"
 on:
-  workflow_call:
-    inputs:
-      sonar_organization: 
-        description: 'Specifies the SonarCloud Organization.'
-        required: true
-        type: string
-      sonar_project_key: 
-        description: 'Specifies Sonar Cloud Project Key.'
-        required: true
-        type: string
-    secrets:
-      git_token:
-        required: true
-      sonar_token:
-        required: true
-
+  workflow_dispatch:
 
 jobs:
   SonarCloudScan:
@@ -27,10 +12,10 @@ jobs:
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         env:
-          GIT_TOKEN: ${{ inputs.git_token }}
-          SONAR_TOKEN: ${{ inputs.sonar_token }}
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
         with:
           args: >
-              -Dsonar.organization=${{ inputs.sonar_organization }}
-              -Dsonar.projectKey=${{ inputs.sonar_project_key }}
+              -Dsonar.organization=subhamay-cloudworks
+              -Dsonar.projectKey=terraform-ci-cd
               -Dsonar.python.coverage.reportPaths=coverage.xml

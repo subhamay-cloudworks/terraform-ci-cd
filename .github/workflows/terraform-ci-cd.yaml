@@ -1,4 +1,4 @@
-name: "Scan, Build, Plan and Deploy"
+name: "Build, Plan and Deploy"
 on:
   workflow_dispatch:
 
@@ -9,16 +9,7 @@ permissions:
 
 jobs:
   ## Plan and Deploy Development
-  sonar-scan:
-    uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/sonar-cloud-scan.yaml@main
-    with: 
-      sonar_organization: subhamay-cloudworks
-      sonar_project_key: terraform-ci-cd
-    secrets:
-      git_token: ${{ secrets.GIT_TOKEN }}
-      sonar_token: ${{ secrets.SONAR_TOKEN }}
   devl:
-    needs: sonar-scan
     uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/terraform-deploy.yaml@main
     with:
       tfvars_filename: devl.terraform.tfvars
@@ -30,7 +21,6 @@ jobs:
       aws_tf_state_bucket_key_name: "${{ secrets.AWS_DEVL_TF_STATE_BUCKET_KEY_NAME }}" 
   ## Plan and Deploy Test/ Stage
   test:
-    needs: sonar-scan
     uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/terraform-deploy.yaml@main
     with:
       tfvars_filename: test.terraform.tfvars
