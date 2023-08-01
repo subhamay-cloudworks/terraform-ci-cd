@@ -34,6 +34,8 @@ on:
         description: 'Specifies the Terraform TFVARS file.'
         required: true
         type: string
+    # secrets:
+
 permissions:
   id-token: write # This is required for aws oidc connection
   contents: read # This is required for actions/checkout
@@ -42,7 +44,7 @@ permissions:
 jobs:
   ## Only Validate and Plan
   validate-plan:
-    if: ${{ inputs.github_env }} != 'prod'
+    if: ${{ inputs.github_env != 'prod' }} 
     runs-on: ubuntu-latest
     environment: ${{ inputs.github_env }}
     defaults:
