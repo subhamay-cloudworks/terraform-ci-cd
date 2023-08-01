@@ -44,7 +44,6 @@ permissions:
 jobs:
   ## Only Validate and Plan
   validate-plan:
-    if: ${{ inputs.github_env != 'prod' }} 
     runs-on: ubuntu-latest
     environment: ${{ inputs.github_env }}
     defaults:
