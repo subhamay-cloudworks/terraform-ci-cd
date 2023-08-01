@@ -15,10 +15,10 @@ jobs:
       tfvars_filename: devl.terraform.tfvars
       github_env: devl
     secrets:
-      aws_region: "${{ secrets.AWS_DEVL_REGION }}"
-      aws_role_arn: "${{ secrets.AWS_DEVL_ROLE_ARN }}" 
-      aws_tf_state_bucket_name: "${{ secrets.AWS_DEVL_TF_STATE_BUCKET_NAME }}" 
-      aws_tf_state_bucket_key_name: "${{ secrets.AWS_DEVL_TF_STATE_BUCKET_KEY_NAME }}" 
+      aws_region: ${{ secrets.AWS_DEVL_REGION }}
+      aws_role_arn: ${{ secrets.AWS_DEVL_ROLE_ARN }}
+      aws_tf_state_bucket_name: ${{ secrets.AWS_DEVL_TF_STATE_BUCKET_NAME }}
+      aws_tf_state_bucket_key_name: ${{ secrets.AWS_DEVL_TF_STATE_BUCKET_KEY_NAME }}
   ## Plan and Deploy Test/ Stage
   test:
     uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/terraform-deploy.yaml@main
@@ -26,10 +26,10 @@ jobs:
       tfvars_filename: test.terraform.tfvars
       github_env: test
     secrets:
-      aws_region: "${{ secrets.AWS_TEST_REGION }}"
-      aws_role_arn: "${{ secrets.AWS_TEST_ROLE_ARN }}" 
-      aws_tf_state_bucket_name: "${{ secrets.AWS_TEST_TF_STATE_BUCKET_NAME }}" 
-      aws_tf_state_bucket_key_name: "${{ secrets.AWS_TEST_TF_STATE_BUCKET_KEY_NAME }}" 
+      aws_region: ${{ secrets.AWS_TEST_REGION }}
+      aws_role_arn: ${{ secrets.AWS_TEST_ROLE_ARN }}
+      aws_tf_state_bucket_name: ${{ secrets.AWS_TEST_TF_STATE_BUCKET_NAME }}
+      aws_tf_state_bucket_key_name: ${{ secrets.AWS_TEST_TF_STATE_BUCKET_KEY_NAME }}
   ## Plan and Deploy Production
   prod:
     needs: [devl,test]
@@ -38,8 +38,8 @@ jobs:
       tfvars_filename: prod.terraform.tfvars
       github_env: prod
     secrets:
-      aws_region: "${{ secrets.AWS_PROD_REGION }}"
-      aws_role_arn: "${{ secrets.AWS_PROD_ROLE_ARN }}" 
-      aws_tf_state_bucket_name: "${{ secrets.AWS_PROD_TF_STATE_BUCKET_NAME }}" 
-      aws_tf_state_bucket_key_name: "${{ secrets.AWS_PROD_TF_STATE_BUCKET_KEY_NAME }}" 
+      aws_region: ${{ secrets.AWS_PROD_REGION }}
+      aws_role_arn: ${{ secrets.AWS_PROD_ROLE_ARN }}
+      aws_tf_state_bucket_name: ${{ secrets.AWS_PROD_TF_STATE_BUCKET_NAME }}
+      aws_tf_state_bucket_key_name: ${{ secrets.AWS_PROD_TF_STATE_BUCKET_KEY_NAME }}
 
