@@ -11,9 +11,12 @@ jobs:
   ## Plan and Deploy Development
   sonar-scan:
     uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/sonar-cloud-scan.yaml@main
+    with: 
+      sonar_organization: subhamay-cloudworks
+      sonar_project_key: terraform-ci-cd
     secrets:
-        git_token: "${{ secrets.GIT_TOKEN }}"
-        sonar_token: "{{ secrets.SONAR_TOKEN }}"
+      git_token: "${{ secrets.GIT_TOKEN }}"
+      sonar_token: "{{ secrets.SONAR_TOKEN }}"
   devl:
     needs: sonar-scan
     uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/terraform-deploy.yaml@main
