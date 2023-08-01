@@ -70,8 +70,8 @@ jobs:
       - name: Configure AWS credentials from AWS account
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ inputs.aws_role_arn }}
-          aws-region: ${{ inputs.aws_region }}
+          role-to-assume: ${{ secrets.aws_role_arn }}
+          aws-region: ${{ secrets.aws_region }}
           role-session-name: GitHub-OIDC-TERRAFORM
 
       - name: Setup Terraform
@@ -87,9 +87,9 @@ jobs:
       - name: Terraform Init
         id: init
         env:
-          AWS_BUCKET_NAME: ${{ inputs.aws_tf_state_bucket_name }}
-          AWS_BUCKET_KEY_NAME: ${{ inputs.aws_tf_state_bucket_key_name }}
-        run: terraform init -backend-config="bucket=${{ inputs.aws_tf_state_bucket_name }}" -backend-config="key=${{ inputs.aws_tf_state_bucket_key_name }}" -backend-config="region=${{ inputs.aws_region }}"
+          AWS_BUCKET_NAME: ${{ secrets.aws_tf_state_bucket_name }}
+          AWS_BUCKET_KEY_NAME: ${{ secrets.aws_tf_state_bucket_key_name }}
+        run: terraform init -backend-config="bucket=${{ secrets.aws_tf_state_bucket_name }}" -backend-config="key=${{ secrets.aws_tf_state_bucket_key_name }}" -backend-config="region=${{ secrets.aws_region }}"
 
       - name: Terraform Validate
         id: validate
@@ -122,8 +122,8 @@ jobs:
       - name: Configure AWS credentials from AWS account
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ inputs.aws_role_arn }}
-          aws-region: ${{ inputs.aws_region }}
+          role-to-assume: ${{ secrets.aws_role_arn }}
+          aws-region: ${{ secrets.aws_region }}
           role-session-name: GitHub-OIDC-TERRAFORM
 
       - name: Setup Terraform
@@ -139,9 +139,9 @@ jobs:
       - name: Terraform Init
         id: init
         env:
-          AWS_BUCKET_NAME: ${{ inputs.aws_tf_state_bucket_name }}
-          AWS_BUCKET_KEY_NAME: ${{ inputs.aws_tf_state_bucket_key_name }}
-        run: terraform init -backend-config="bucket=${{ inputs.aws_tf_state_bucket_name }}" -backend-config="key=${{ inputs.aws_tf_state_bucket_key_name }}" -backend-config="region=${{ inputs.aws_region }}"
+          AWS_BUCKET_NAME: ${{ secrets.aws_tf_state_bucket_name }}
+          AWS_BUCKET_KEY_NAME: ${{ secrets.aws_tf_state_bucket_key_name }}
+        run: terraform init -backend-config="bucket=${{ secrets.aws_tf_state_bucket_name }}" -backend-config="key=${{ secrets.aws_tf_state_bucket_key_name }}" -backend-config="region=${{ secrets.aws_region }}"
 
       - name: Terraform Validate
         id: validate
