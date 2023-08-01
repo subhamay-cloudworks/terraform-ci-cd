@@ -153,8 +153,7 @@ jobs:
 
   ## Validate , Plan and Apply 
   validate-plan-apply:
-    if: success() && ${{ inputs.github_env == 'prod' }} 
-    needs: [validate-plan,apply]
+    if: ${{ inputs.github_env == 'prod' }} 
     runs-on: ubuntu-latest
     environment: ${{ inputs.github_env }}
     defaults:
