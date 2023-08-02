@@ -17,6 +17,10 @@ on:
         description: 'Specifies the Terraform TFVARS file.'
         required: true
         type: string
+    outputs:
+      result:
+        description: The result of deployment operation
+        value:
     secrets:
       aws_region:
         required: true
@@ -99,8 +103,11 @@ jobs:
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
         run: exit 1
+
   ## Plan and Apply 
   apply:
+    outputs:
+      outcome: ${{ steps.set-result.outputs.apply-result }}
     needs: validate-plan
     runs-on: ubuntu-latest
     # environment: ${{ inputs.github_env }}
@@ -168,3 +175,7 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve -input=false
+
+      - name: Set result output
+        id: set-result
+        run: echo "apply-result=success" >> $GITHUB_OUTPUT
