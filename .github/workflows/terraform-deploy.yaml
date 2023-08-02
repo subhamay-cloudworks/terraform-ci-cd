@@ -20,7 +20,7 @@ on:
     outputs:
       result:
         description: The result of deployment operation
-        value:
+        value: ${{ jobs.apply.outputs.outcome }}
     secrets:
       aws_region:
         required: true
