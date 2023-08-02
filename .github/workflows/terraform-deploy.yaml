@@ -13,23 +13,6 @@ on:
         required: false
         type: string
         default: "devl"
-      # aws_region: 
-      #   description: 'Specifies the AWS Region.'
-      #   required: true
-      #   type: string
-      #   default: "us-east-1"
-      # aws_role_arn: 
-      #   description: 'Specifies the AWS Region.'
-      #   required: true
-      #   type: string
-      # aws_tf_state_bucket_name: 
-      #   description: 'S3 Bucket to store the Terraform state file.'
-      #   required: true
-      #   type: string
-      # aws_tf_state_bucket_key_name: 
-      #   description: 'S3 Bucket key to store the Terraform state file.'
-      #   required: true
-      #   type: string
       tfvars_filename:
         description: 'Specifies the Terraform TFVARS file.'
         required: true
@@ -106,7 +89,7 @@ jobs:
   apply:
     needs: validate-plan
     runs-on: ubuntu-latest
-    environment: ${{ inputs.github_env }}
+    # environment: ${{ inputs.github_env }}
     defaults:
       run:
         shell: bash
@@ -124,7 +107,7 @@ jobs:
         with:
           role-to-assume: ${{ secrets.aws_role_arn }}
           aws-region: ${{ secrets.aws_region }}
-          role-session-name: GitHub-OIDC-TERRAFORM
+          role-session-name: github-aws-erraform-oidc
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
