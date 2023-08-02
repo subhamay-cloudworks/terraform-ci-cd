@@ -55,17 +55,26 @@ jobs:
         with:
           role-to-assume: ${{ secrets.aws_role_arn }}
           aws-region: ${{ secrets.aws_region }}
-          role-session-name: GitHub-OIDC-TERRAFORM
+          role-session-name: github-aws-terraform-oidc
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.2.5
+          terraform_version: 1.4
 
-      - name: Terraform fmt
-        id: fmt
-        run: terraform fmt -check
-        continue-on-error: true
+      - name: Config Terraform plugin cache
+        run: |
+          echo 'plugin_cache_dir="$HOME/.terraform.d/plugin-cache"' >~/.terraformrc
+          mkdir --parents ~/.terraform.d/plugin-cache
+
+      - name: Cache Terraform
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.terraform.d/plugin-cache
+          key: ${{ runner.os }}-terraform-${{ hashFiles('**/.terraform.lock.hcl') }}
+          restore-keys: |
+            ${{ runner.os }}-terraform-
 
       - name: Terraform Init
         id: init
@@ -73,6 +82,11 @@ jobs:
           AWS_BUCKET_NAME: ${{ secrets.aws_tf_state_bucket_name }}
           AWS_BUCKET_KEY_NAME: ${{ secrets.aws_tf_state_bucket_key_name }}
         run: terraform init -backend-config="bucket=${{ secrets.aws_tf_state_bucket_name }}" -backend-config="key=${{ secrets.aws_tf_state_bucket_key_name }}" -backend-config="region=${{ secrets.aws_region }}"
+
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
 
       - name: Terraform Validate
         id: validate
@@ -107,17 +121,26 @@ jobs:
         with:
           role-to-assume: ${{ secrets.aws_role_arn }}
           aws-region: ${{ secrets.aws_region }}
-          role-session-name: github-aws-erraform-oidc
+          role-session-name: github-aws-terraform-oidc
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.2.5
+          terraform_version: 1.4
 
-      - name: Terraform fmt
-        id: fmt
-        run: terraform fmt -check
-        continue-on-error: true
+      - name: Config Terraform plugin cache
+        run: |
+          echo 'plugin_cache_dir="$HOME/.terraform.d/plugin-cache"' >~/.terraformrc
+          mkdir --parents ~/.terraform.d/plugin-cache
+
+      - name: Cache Terraform
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.terraform.d/plugin-cache
+          key: ${{ runner.os }}-terraform-${{ hashFiles('**/.terraform.lock.hcl') }}
+          restore-keys: |
+            ${{ runner.os }}-terraform-
 
       - name: Terraform Init
         id: init
@@ -125,6 +148,11 @@ jobs:
           AWS_BUCKET_NAME: ${{ secrets.aws_tf_state_bucket_name }}
           AWS_BUCKET_KEY_NAME: ${{ secrets.aws_tf_state_bucket_key_name }}
         run: terraform init -backend-config="bucket=${{ secrets.aws_tf_state_bucket_name }}" -backend-config="key=${{ secrets.aws_tf_state_bucket_key_name }}" -backend-config="region=${{ secrets.aws_region }}"
+
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
 
       - name: Terraform Validate
         id: validate
