@@ -1,4 +1,4 @@
-name: "Destroy Stack"
+name: "Build, Plan and Deploy Stack"
 on:
   workflow_dispatch:
 
