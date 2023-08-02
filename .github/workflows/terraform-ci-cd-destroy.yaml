@@ -1,0 +1,63 @@
+name: "Build, Plan and Deploy"
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write # This is required for aws oidc connection
+  contents: read # This is required for actions/checkout
+  pull-requests: write # This is required for gh bot to comment PR
+
+jobs:
+  ## Plan and Deploy Development
+  devl:
+    uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/terraform-destroy.yaml@main
+    with:
+      tfvars_filename: devl.terraform.tfvars
+      github_env: devl
+    secrets:
+      aws_region: ${{ secrets.AWS_DEVL_REGION }}
+      aws_role_arn: ${{ secrets.AWS_DEVL_ROLE_ARN }}
+      aws_tf_state_bucket_name: ${{ secrets.AWS_DEVL_TF_STATE_BUCKET_NAME }}
+      aws_tf_state_bucket_key_name: ${{ secrets.AWS_DEVL_TF_STATE_BUCKET_KEY_NAME }}
+  print-devl-output:
+    needs: devl
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print destroy output
+        run: echo "${{ needs.devl.outputs.result }}"
+  ## Plan and Deploy Test/ Stage
+  test:
+    uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/terraform-destroy.yaml@main
+    with:
+      tfvars_filename: test.terraform.tfvars
+      github_env: test
+    secrets:
+      aws_region: ${{ secrets.AWS_TEST_REGION }}
+      aws_role_arn: ${{ secrets.AWS_TEST_ROLE_ARN }}
+      aws_tf_state_bucket_name: ${{ secrets.AWS_TEST_TF_STATE_BUCKET_NAME }}
+      aws_tf_state_bucket_key_name: ${{ secrets.AWS_TEST_TF_STATE_BUCKET_KEY_NAME }}
+  print-test-output:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print destroy output
+        run: echo "${{ needs.test.outputs.result }}"
+  ## Plan and Deploy Production
+  prod:
+    needs: [devl,test,print-devl-output, print-test-output]
+    uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/terraform-destroy.yaml@main
+    with:
+      tfvars_filename: prod.terraform.tfvars
+      github_env: prod
+    secrets:
+      aws_region: ${{ secrets.AWS_PROD_REGION }}
+      aws_role_arn: ${{ secrets.AWS_PROD_ROLE_ARN }}
+      aws_tf_state_bucket_name: ${{ secrets.AWS_PROD_TF_STATE_BUCKET_NAME }}
+      aws_tf_state_bucket_key_name: ${{ secrets.AWS_PROD_TF_STATE_BUCKET_KEY_NAME }}
+  print-prod-output:
+    needs: prod
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print destroy output
+        run: echo "${{ needs.prod.outputs.result }}"
+
