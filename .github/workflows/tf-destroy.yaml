@@ -87,7 +87,6 @@ jobs:
           AWS_BUCKET_KEY_NAME: ${{ secrets.aws_tf_state_bucket_key_name }}
         run: terraform init -backend-config="bucket=${{ secrets.aws_tf_state_bucket_name }}" -backend-config="key=${{ secrets.aws_tf_state_bucket_key_name }}" -backend-config="region=${{ secrets.aws_region }}"
 
-
       - name: Terraform Destroy Plan
         id: plan
         run: terraform plan -destroy
