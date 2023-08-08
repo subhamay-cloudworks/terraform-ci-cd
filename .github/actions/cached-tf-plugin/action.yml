@@ -1,5 +1,5 @@
-name: Install and Cache Terraform Plugin
-description: Installs Terraform Plugin and cache it
+name: 'Install and Cache Terraform Plugin'
+description: 'Installs Terraform plugin and cache it.'
 runs:
   using: 'composite'
   steps:
