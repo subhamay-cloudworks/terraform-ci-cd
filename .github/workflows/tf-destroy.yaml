@@ -61,24 +61,10 @@ jobs:
           aws-region: ${{ secrets.aws_region }}
           role-session-name: github-aws-terraform-oidc
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
+      - name: Configure and cache Terraform plugin
+        uses: ./.github/actions/cached-tf-plugin
         with:
-          terraform_version: 1.4
-
-      - name: Config Terraform plugin cache
-        run: |
-          echo 'plugin_cache_dir="$HOME/.terraform.d/plugin-cache"' >~/.terraformrc
-          mkdir --parents ~/.terraform.d/plugin-cache
-
-      - name: Cache Terraform
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.terraform.d/plugin-cache
-          key: ${{ runner.os }}-terraform-${{ hashFiles('**/.terraform.lock.hcl') }}
-          restore-keys: |
-            ${{ runner.os }}-terraform-
+          tf-version: inputs.terraform_ver
 
       - name: Terraform Init
         id: init

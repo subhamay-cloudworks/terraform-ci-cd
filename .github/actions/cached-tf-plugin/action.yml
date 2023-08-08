@@ -1,14 +1,25 @@
 name: 'Install and Cache Terraform Plugin'
 description: 'Installs Terraform plugin and cache it.'
+inputs:
+  caching:
+    description: 'Whether to cache dependies or not.'
+    required: false
+    default: 'true'
+  tf-version:
+    description: 'The Terraform version to be used.'
+    required: true
+    default: 1.4
+
 runs:
   using: 'composite'
   steps:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
       with:
-        terraform_version: 1.4
+        terraform_version: inputs.tf-version
 
     - name: Cache Terraform
+      if: inputs.caching == 'true'
       id: cache
       uses: actions/cache@v3
       with:
@@ -19,7 +30,7 @@ runs:
           ${{ runner.os }}-terraform-
 
     - name: Config Terraform plugin cache
-      if: steps.cache.outputs.cache-hit != 'true'
+      if: steps.cache.outputs.cache-hit != 'true' || inputs.caching != 'true'
       run: |
         echo 'plugin_cache_dir="$HOME/.terraform.d/plugin-cache"' >~/.terraformrc
         mkdir --parents ~/.terraform.d/plugin-cache

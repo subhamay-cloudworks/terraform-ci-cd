@@ -63,6 +63,8 @@ jobs:
 
       - name: Configure and cache Terraform plugin
         uses: ./.github/actions/cached-tf-plugin
+        with:
+          tf-version: inputs.terraform_ver
 
       - name: Terraform Init
         id: init
