@@ -46,7 +46,7 @@ jobs:
         run: echo "${{ needs.test.outputs.result }}"
   ## Plan and Deploy Production
   prod:
-    needs: [devl,test,print-devl-output, print-test-output]
+    needs: [print-devl-output, print-test-output]
     uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/tf-destroy.yaml@main
     with:
       tfvars_filename: prod.terraform.tfvars
