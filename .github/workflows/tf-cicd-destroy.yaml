@@ -14,7 +14,7 @@ jobs:
     with:
       tfvars_filename: devl.terraform.tfvars
       github_env: devl
-      terrform_ver: 1.4
+      terraform_ver: 1.4
     secrets:
       aws_region: ${{ secrets.AWS_DEVL_REGION }}
       aws_role_arn: ${{ secrets.AWS_DEVL_ROLE_ARN }}
@@ -32,7 +32,7 @@ jobs:
     with:
       tfvars_filename: test.terraform.tfvars
       github_env: test
-      terrform_ver: 1.4
+      terraform_ver: 1.4
     secrets:
       aws_region: ${{ secrets.AWS_TEST_REGION }}
       aws_role_arn: ${{ secrets.AWS_TEST_ROLE_ARN }}
@@ -51,7 +51,7 @@ jobs:
     with:
       tfvars_filename: prod.terraform.tfvars
       github_env: prod
-      terrform_ver: 1.4
+      terraform_ver: 1.4
     secrets:
       aws_region: ${{ secrets.AWS_PROD_REGION }}
       aws_role_arn: ${{ secrets.AWS_PROD_ROLE_ARN }}
