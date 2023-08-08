@@ -9,6 +9,10 @@ inputs:
     description: 'The Terraform version to be used.'
     required: true
     default: 1.4
+outputs:
+  used-cache:
+    description: 'Whether the cache was used.'
+    value: ${{ steps.install.outputs.cache }}
 
 runs:
   using: 'composite'
@@ -30,9 +34,11 @@ runs:
           ${{ runner.os }}-terraform-
 
     - name: Config Terraform plugin cache
+      id: install
       if: steps.cache.outputs.cache-hit != 'true' || inputs.caching != 'true'
       run: |
         echo 'plugin_cache_dir="$HOME/.terraform.d/plugin-cache"' >~/.terraformrc
         mkdir --parents ~/.terraform.d/plugin-cache
+        echo "used-cache='${{ inputs.caching }}" >> $GITHUB_OUTPUT
       shell: bash
 
