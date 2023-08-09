@@ -2,7 +2,7 @@ name: "Build, Plan and Deploy Stack"
 on:
   workflow_dispatch:
 
-    
+
 permissions:
   id-token: write # This is required for aws oidc connection
   contents: read # This is required for actions/checkout
@@ -11,7 +11,7 @@ permissions:
 jobs:
   ## Plan and Deploy Development
   devl:
-    uses: subhamay-gh-actions/tfapply.yaml@v1
+    uses: subhamay-gh-actions/tfapply@v1
     with:
       tfvars_filename: devl.terraform.tfvars
       github_env: devl
@@ -30,7 +30,7 @@ jobs:
   ## Plan and Deploy Test/ Stage
   test:
     needs: print-devl-output
-    uses: subhamay-gh-actions/tfapply.yaml@v1
+    uses: subhamay-gh-actions/tfapply@v1
     with:
       tfvars_filename: test.terraform.tfvars
       github_env: test
@@ -49,7 +49,7 @@ jobs:
   ## Plan and Deploy Production
   prod:
     needs: [print-test-output]
-    uses: subhamay-gh-actions/tfapply.yaml@v1
+    uses: subhamay-gh-actions/tfapply@v1
     with:
       tfvars_filename: prod.terraform.tfvars
       github_env: prod
