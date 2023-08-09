@@ -39,6 +39,6 @@ runs:
       run: |
         echo 'plugin_cache_dir="$HOME/.terraform.d/plugin-cache"' >~/.terraformrc
         mkdir --parents ~/.terraform.d/plugin-cache
-        echo "cache='${{ inputs.caching }}" >> $GITHUB_OUTPUT
+        echo "cache='YES'" >> $GITHUB_OUTPUT
       shell: bash
 
