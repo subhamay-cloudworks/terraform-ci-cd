@@ -48,7 +48,7 @@ jobs:
   ## Plan and Deploy Production
   prod:
     needs: [print-test-output]
-    uses: subhamay-gh-actions/tfdestroy.yaml@v1
+    uses: subhamay-gh-actions/tfdestroy@v1
     with:
       tfvars_filename: prod.terraform.tfvars
       github_env: prod
