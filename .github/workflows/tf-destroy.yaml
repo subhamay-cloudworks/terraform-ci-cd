@@ -66,6 +66,7 @@ jobs:
         uses: ./.github/actions/cached-tf-plugin
         with:
           tf-version: ${{ inputs.terraform_ver }}
+          caching: 'true'
 
       - name: Output Cache used
         id: cache-used
