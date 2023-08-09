@@ -10,7 +10,7 @@ permissions:
 jobs:
   ## Plan and Deploy Development
   devl:
-    uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/tf-deploy.yaml@main
+    uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/tf-apply.yaml@main
     with:
       tfvars_filename: devl.terraform.tfvars
       github_env: devl
@@ -28,7 +28,8 @@ jobs:
         run: echo "${{ needs.devl.outputs.result }}"
   ## Plan and Deploy Test/ Stage
   test:
-    uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/tf-deploy.yaml@main
+    needs: print-devl-output
+    uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/tf-apply.yaml@main
     with:
       tfvars_filename: test.terraform.tfvars
       github_env: test
@@ -46,8 +47,8 @@ jobs:
         run: echo "${{ needs.test.outputs.result }}"
   ## Plan and Deploy Production
   prod:
-    needs: [devl,test,print-devl-output, print-test-output]
-    uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/tf-deploy.yaml@main
+    needs: [print-test-output]
+    uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/tf-apply.yaml@main
     with:
       tfvars_filename: prod.terraform.tfvars
       github_env: prod
