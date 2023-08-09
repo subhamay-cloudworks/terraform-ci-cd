@@ -62,9 +62,14 @@ jobs:
           role-session-name: github-aws-terraform-oidc
 
       - name: Configure and cache Terraform plugin
+        id: plugin
         uses: ./.github/actions/cached-tf-plugin
         with:
-          tf-version: inputs.terraform_ver
+          tf-version: ${{ inputs.terraform_ver }}
+
+      - name: Output Cache used
+        id: cache-used
+        run: echo "Cache used? ${{ steps.plugin.outputs.used-cache }}"
 
       - name: Terraform Init
         id: init
