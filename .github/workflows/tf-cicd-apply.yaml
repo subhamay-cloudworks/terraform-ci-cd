@@ -2,6 +2,7 @@ name: "Build, Plan and Deploy Stack"
 on:
   workflow_dispatch:
 
+    
 permissions:
   id-token: write # This is required for aws oidc connection
   contents: read # This is required for actions/checkout
