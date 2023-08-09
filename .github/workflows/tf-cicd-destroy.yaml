@@ -28,6 +28,7 @@ jobs:
         run: echo "${{ needs.devl.outputs.result }}"
   ## Plan and Deploy Test/ Stage
   test:
+    needs: print-devl-output
     uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/tf-destroy.yaml@main
     with:
       tfvars_filename: test.terraform.tfvars
@@ -46,7 +47,7 @@ jobs:
         run: echo "${{ needs.test.outputs.result }}"
   ## Plan and Deploy Production
   prod:
-    needs: [print-devl-output, print-test-output]
+    needs: [print-test-output]
     uses: subhamay-cloudworks/terraform-ci-cd/.github/workflows/tf-destroy.yaml@main
     with:
       tfvars_filename: prod.terraform.tfvars
